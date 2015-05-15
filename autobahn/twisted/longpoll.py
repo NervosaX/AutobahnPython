@@ -66,6 +66,10 @@ class WampLongPollResourceSessionSend(Resource):
         self._parent = parent
         self._debug = self._parent._parent._debug
 
+    def render_OPTIONS(self, request):
+        self._parent._setStandardHeaders(request)
+        return ""
+
     def render_POST(self, request):
         """
         A client sends a message via WAMP-over-Longpoll by HTTP/POSTing
@@ -157,6 +161,10 @@ class WampLongPollResourceSessionReceive(Resource):
             self._request.finish()
             self._request = None
 
+    def render_OPTIONS(self, request):
+        self._parent._parent._setStandardHeaders(request)
+        return ""
+
     def render_POST(self, request):
         """
         A client receives WAMP messages by issuing a HTTP/POST to this
@@ -198,6 +206,10 @@ class WampLongPollResourceSessionClose(Resource):
         Resource.__init__(self)
         self._parent = parent
         self._debug = self._parent._parent._debug
+
+    def render_OPTIONS(self, request):
+        self._parent._setStandardHeaders(request)
+        return ""
 
     def render_POST(self, request):
         """
@@ -384,6 +396,10 @@ class WampLongPollResourceOpen(Resource):
         Resource.__init__(self)
         self._parent = parent
         self._debug = self._parent._debug
+
+    def render_OPTIONS(self, request):
+        self._parent._setStandardHeaders(request)
+        return ""
 
     def render_POST(self, request):
         """
@@ -654,3 +670,4 @@ class WampLongPollResource(Resource):
 </html>
 """ % (redirect, __version__)
         return html
+
